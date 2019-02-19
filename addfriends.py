@@ -76,7 +76,7 @@ def Input_Remark_Inf(Name):
 	adb.run(cmd)
 	print('Name')
 
-#执行添加好友操作
+#执行添加好友操作,坐标需根据不同手机自行调整
 def Add_Friend(Mobile,Name,LastName):
 	print('Adding.............')
 	Change_Position(983,157)
