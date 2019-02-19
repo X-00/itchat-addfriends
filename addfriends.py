@@ -20,6 +20,7 @@ client=AipOcr(APP_ID,API_KEY,SECRET_KEY)
 def Read(device_name):
 	pass
 
+#读取连接的手机的序列号，开启多线程
 out=os.popen("adb devices").read()
 device_list=re.sub('\tdevice','',out[25:]).strip().split('\n')
 print(device_list)
@@ -27,7 +28,7 @@ for device in device_list:
 	if device:
 		threading.Thread(target=Read,args=(device,)).start()
 
-
+#截图操作
 class ScreenShot():
 	def Screen(self,cmd):
 		screenExecute=subprocess.Popen(str(cmd),stderr=subprocess.PIPE,stdout=subprocess.PIPE,shell=True)
@@ -40,7 +41,7 @@ class ScreenShot():
 		stdout, stderr = screenExecute.communicate()
 		stdout = stdout.decode("utf-8")
 		stderr = stderr.decode("utf-8")
-
+#点击手机的坐标
 def Change_Position(x,y):
 	cmd='shell input tap {0} {1}'.format(x,y)
 	print(cmd)
@@ -49,7 +50,8 @@ def Change_Position(x,y):
 def Get_File_Content(FilePath):
 	with open(FilePath,'rb') as fp:
 		return fp.read()
-			
+
+#对截图进行OCR识别
 def Get_Image_Text():
 	with open('screenshot.png','rb') as fp:
 		image=fp.read()
@@ -60,18 +62,21 @@ def Input_Mobile(Mobile):
 	cmd='-s 0cd6bd760c3e shell am broadcast -a ADB_INPUT_TEXT --es msg {0}'.format(Mobile)
 	adb.run(cmd)
 	print('Mobile:'+Mobile)
-	
+
+#填写验证申请	
 def Input_Verify_Inf(LastName):
 	LastName=LastName+'总，朋友介绍，找您档案项目合作'
 	cmd='shell am broadcast -a ADB_INPUT_TEXT --es msg {0}'.format(LastName)
 	adb.run(cmd)
 	print('LastName')
-	
+
+#填写备注	
 def Input_Remark_Inf(Name):
 	cmd='shell am broadcast -a ADB_INPUT_TEXT --es msg {0}'.format(Name)
 	adb.run(cmd)
 	print('Name')
-	
+
+#执行添加好友操作
 def Add_Friend(Mobile,Name,LastName):
 	print('Adding.............')
 	Change_Position(983,157)
@@ -191,32 +196,7 @@ if __name__=='__main__':
 			file_info=open('info.txt','a')
 			file_info.write(Number+Name+inf+"\n"+timestr+"\n"+"-------------------"+"\n")
 			file_info.close()
-			#time.sleep(1200)
+			time.sleep(1200)
 		else:
 			break
 			
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
