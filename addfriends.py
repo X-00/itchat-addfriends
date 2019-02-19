@@ -159,9 +159,10 @@ def Add_Friend(Mobile,Name,LastName):
 if __name__=='__main__':
 	List_Name=[]
 	List_Number=[]
+	#读取需要添加的手机号和名字
 	file_name=open('name.txt')
 	file_number=open('number.txt')
-
+	#
 	while True:
 		namestr=file_name.readline()
 		if not namestr:
@@ -174,10 +175,11 @@ if __name__=='__main__':
 		List_Number.append(numberstr)
 	Num=0
 	while True:
-		file_count=open('count.txt')
+		file_count=open('count.txt')				#直接打开一个文件，如果文件不存在则创建文件，count.txt内容：0
 		count=file_count.read()
 		file_count.close()
 		now=datetime.datetime.now()
+		#每天早上9-晚上8点之间执行操作
 		if now.hour>=9 and Num<20:
 			Count=int(count)
 			Name=List_Name[Count]
@@ -186,16 +188,17 @@ if __name__=='__main__':
 			inf=Add_Friend(Number,Name,LastName)
 			if inf=='发送成功':
 				Num=Num+1
-			Count=Count+1
+			Count=Count+1					#记录添加个数，防止操作意外停止，可读取当前数继续添加
 			file_count=open('count.txt','w+')
 			file_count.write(str(Count))
 			file_count.close()
 			
 			timestr=time.strftime('%Y.%m.%d %H:%M:%S',time.localtime(time.time()))
-			
+			#记录添加过的信息
 			file_info=open('info.txt','a')
 			file_info.write(Number+Name+inf+"\n"+timestr+"\n"+"-------------------"+"\n")
 			file_info.close()
+			#休眠20分钟，防止操作频繁微信后台拒绝添加
 			time.sleep(1200)
 		else:
 			break
